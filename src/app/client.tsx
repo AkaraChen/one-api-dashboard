@@ -28,7 +28,7 @@ function DashboardClient() {
       queryKey: ["providerQuota", provider.id],
       queryFn: async () => {
         // 只有当 URL 和 API Key 都存在时才发起请求
-        if (provider.url && provider.apiKey && provider.userId) {
+        if (provider.url && provider.apiKey) {
           try {
             return await getProviderQuota(
               provider.url,

@@ -11,13 +11,15 @@ interface QuotaResponse {
 export async function getProviderQuota(
   baseURL: string,
   token: string,
-  userId: string,
+  userId?: string,
 ) {
   const url = `/api/one-api/quota`;
   const search = new URLSearchParams();
   search.set("baseURL", baseURL);
   search.set("token", token);
-  search.set("userId", userId);
+  if (userId) {
+    search.set("userId", userId);
+  }
   const response = await fetch(`${url}?${search.toString()}`);
   const data = (await response.json()) as QuotaResponse;
 

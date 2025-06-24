@@ -9,9 +9,9 @@ export async function GET(request: NextRequest) {
   const token = url.searchParams.get("token");
   const userId = url.searchParams.get("userId");
 
-  if (!baseURL || !token || !userId) {
+  if (!baseURL || !token) {
     return NextResponse.json(
-      { error: "Missing baseURL, token or userId parameter" },
+      { error: "Missing baseURL, token parameter" },
       { status: 400 },
     );
   }
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     const userResponse = await fetch(new URL("/api/user/self", baseURL), {
       headers: {
         Authorization: `Bearer ${token}`,
-        "New-Api-User": userId,
+        ...(userId ? { "New-Api-User": userId } : {}),
       },
     });
     const userData = await userResponse.json();

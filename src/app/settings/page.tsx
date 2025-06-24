@@ -95,17 +95,19 @@ function Settings() {
   const handleExportProviders = () => {
     const dataStr = JSON.stringify(providers, null, 2);
     const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(dataStr)}`;
-    
+
     const exportFileDefaultName = `one-api-providers-${new Date().toISOString().slice(0, 10)}.json`;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
+
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", exportFileDefaultName);
     linkElement.click();
   };
 
   // Handle import of providers
-  const handleImportProviders = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImportProviders = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -113,36 +115,40 @@ function Settings() {
     reader.onload = (e) => {
       try {
         const importedProviders = JSON.parse(e.target?.result as string);
-        
+
         // Validate the imported data structure
-        if (Array.isArray(importedProviders) && importedProviders.every(provider => 
-          typeof provider === 'object' && 
-          provider !== null && 
-          'name' in provider && 
-          'url' in provider && 
-          'apiKey' in provider
-        )) {
+        if (
+          Array.isArray(importedProviders) &&
+          importedProviders.every(
+            (provider) =>
+              typeof provider === "object" &&
+              provider !== null &&
+              "name" in provider &&
+              "url" in provider &&
+              "apiKey" in provider,
+          )
+        ) {
           // Replace all providers with imported ones
-          importedProviders.forEach(provider => {
+          importedProviders.forEach((provider) => {
             addProvider({
               name: provider.name,
               url: provider.url,
               apiKey: provider.apiKey,
-              userId: provider.userId || '',
-              unit: provider.unit || 'USD'
+              userId: provider.userId || "",
+              unit: provider.unit || "USD",
             });
           });
-          alert('导入成功！');
+          alert("导入成功！");
         } else {
-          alert('导入失败：无效的数据格式');
+          alert("导入失败：无效的数据格式");
         }
       } catch (error) {
-        console.error('Import error:', error);
-        alert('导入失败：无法解析文件');
+        console.error("Import error:", error);
+        alert("导入失败：无法解析文件");
       }
-      
+
       // Reset the file input
-      event.target.value = '';
+      event.target.value = "";
     };
     reader.readAsText(file);
   };
@@ -153,30 +159,26 @@ function Settings() {
         <h1 className="text-2xl font-bold">设置</h1>
         <div className="flex gap-2">
           {/* Hidden file input for import */}
-          <input 
-            type="file" 
-            id="import-file" 
-            accept=".json" 
-            className="hidden" 
-            onChange={handleImportProviders} 
+          <input
+            type="file"
+            id="import-file"
+            accept=".json"
+            className="hidden"
+            onChange={handleImportProviders}
           />
-          
-          <Button 
-            onClick={() => document.getElementById('import-file')?.click()} 
+
+          <Button
+            onClick={() => document.getElementById("import-file")?.click()}
             variant="outline"
             size="sm"
           >
             导入
           </Button>
-          
-          <Button 
-            onClick={handleExportProviders} 
-            variant="outline"
-            size="sm"
-          >
+
+          <Button onClick={handleExportProviders} variant="outline" size="sm">
             导出
           </Button>
-          
+
           <Button onClick={() => setShowForm(true)} variant="default">
             添加
           </Button>
