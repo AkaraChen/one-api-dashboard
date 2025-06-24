@@ -227,7 +227,7 @@ function Settings() {
                       required
                     />
                     <CardDescription className="mt-1 text-xs">
-                      由于浏览器的安全限制，API Key 将被发送至服务端。
+                      由于浏览器的安全限制，API Key 将被发送至服务端
                     </CardDescription>
                   </div>
 
