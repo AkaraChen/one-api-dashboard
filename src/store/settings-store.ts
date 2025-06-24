@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { nanoid } from 'nanoid'
 
 // Define the provider type for our settings
 export interface Provider {
@@ -24,16 +25,21 @@ export const useSettingsStore = create<SettingsState>()(
       providers: [],
 
       addProvider: (provider: Omit<Provider, "id">) =>
-        set((state) => ({
-          providers: [
-            ...state.providers,
-            {
-              ...provider,
-              id: Date.now().toString(),
-              unit: provider.unit || "USD", // 如果没有提供 unit，默认设置为 USD
-            },
-          ],
-        })),
+        set((state) => {
+          // Generate a unique ID using timestamp + random string to avoid collisions
+          const uniqueId = nanoid()
+          
+          return {
+            providers: [
+              ...state.providers,
+              {
+                ...provider,
+                id: uniqueId,
+                unit: provider.unit || "USD", // 如果没有提供 unit，默认设置为 USD
+              },
+            ],
+          };
+        }),
 
       updateProvider: (id: string, updatedProvider: Omit<Provider, "id">) =>
         set((state) => ({

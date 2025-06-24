@@ -90,7 +90,8 @@ function Settings() {
     deleteProvider(id);
   };
 
-  const [parent] = useAutoAnimate();
+  const [rootParent] = useAutoAnimate();
+  const [listParent] = useAutoAnimate();
 
   // Handle export of providers
   const handleExportProviders = () => {
@@ -154,7 +155,7 @@ function Settings() {
   };
 
   return (
-    <div className="container mx-auto p-4" ref={parent}>
+    <div className="container mx-auto p-4" ref={rootParent}>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">设置</h1>
         <div className="flex gap-2">
@@ -197,7 +198,7 @@ function Settings() {
           </CardHeader>
           <CardContent>
             <form id="settingsForm" onSubmit={handleSaveProvider}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4" ref={listParent}>
                 {/* 左列 */}
                 <div>
                   <div className="mb-4">
