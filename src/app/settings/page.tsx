@@ -160,7 +160,7 @@ function Settings() {
                       required
                     />
                     <CardDescription className="mt-1 text-xs">
-                      必填的用户 ID
+                      New API 要求提供用户 ID，如果使用 One API 则可以留空
                     </CardDescription>
                   </div>
                 </div>
