@@ -21,6 +21,7 @@ import { useSettingsStore } from "@/store/settings-store";
 import { EmptyState } from "@/components/empty-state";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { CURRENCY_UNITS } from "@/lib/utils";
+import { toast } from "sonner";
 
 function Settings() {
   // Get settings providers and actions from the store
@@ -138,13 +139,12 @@ function Settings() {
               unit: provider.unit || "USD",
             });
           });
-          alert("导入成功！");
+          toast.success("导入成功！");
         } else {
-          alert("导入失败：无效的数据格式");
+          toast.error("导入失败：无效的数据格式");
         }
       } catch (error) {
-        console.error("Import error:", error);
-        alert("导入失败：无法解析文件");
+        toast.error(`导入失败： ${(error as Error).message}`);
       }
 
       // Reset the file input
@@ -170,12 +170,11 @@ function Settings() {
           <Button
             onClick={() => document.getElementById("import-file")?.click()}
             variant="outline"
-            size="sm"
           >
             导入
           </Button>
 
-          <Button onClick={handleExportProviders} variant="outline" size="sm">
+          <Button onClick={handleExportProviders} variant="outline">
             导出
           </Button>
 

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table";
 import { Loader2Icon } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 function DashboardClient() {
   // Get providers from the store
@@ -36,7 +37,7 @@ function DashboardClient() {
               provider.userId,
             );
           } catch (error) {
-            console.error(`获取 ${provider.name} 配额失败:`, error);
+            toast.error(`获取 ${provider.name} 配额失败: ${(error as Error).message}`);
             return { quota: 0, quotaPerUnit: 1, unit: 0 }; // 返回默认值
           }
         }
