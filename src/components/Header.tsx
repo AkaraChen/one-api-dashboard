@@ -8,16 +8,16 @@ export default function Header() {
         <div className="font-bold text-xl">One API Dashboard</div>
         <nav className="flex gap-2">
           <Button variant="ghost" asChild>
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               activeProps={{ className: 'bg-accent text-accent-foreground' }}
             >
               首页
             </Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link 
-              to="/settings" 
+            <Link
+              to="/settings"
               activeProps={{ className: 'bg-accent text-accent-foreground' }}
             >
               设置
