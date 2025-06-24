@@ -1,4 +1,4 @@
-import { Link, createFileRoute  } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -45,11 +45,13 @@ function Dashboard() {
         <CardContent>
           {providers.length > 0 ? (
             <div className="space-y-4">
-              {providers.map(provider => (
+              {providers.map((provider) => (
                 <Card key={provider.id} className="border shadow-sm">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base">{provider.name}</CardTitle>
-                    <CardDescription className="truncate">{provider.url}</CardDescription>
+                    <CardDescription className="truncate">
+                      {provider.url}
+                    </CardDescription>
                   </CardHeader>
                   <CardFooter className="pt-2">
                     <Button variant="outline" size="sm" asChild>

@@ -17,7 +17,8 @@ export const Route = createFileRoute('/settings')({
 
 function Settings() {
   // Get settings providers and actions from the store
-  const { providers, addProvider, updateProvider, deleteProvider } = useSettingsStore()
+  const { providers, addProvider, updateProvider, deleteProvider } =
+    useSettingsStore()
 
   // State for the form
   const [showForm, setShowForm] = useState(false)
@@ -137,7 +138,9 @@ function Settings() {
           <Card key={provider.id}>
             <CardHeader>
               <CardTitle>{provider.name}</CardTitle>
-              <CardDescription className="truncate">{provider.url}</CardDescription>
+              <CardDescription className="truncate">
+                {provider.url}
+              </CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-end gap-2">
               <Button
