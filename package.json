@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md,mdx,html,markdown}\""
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.5",
@@ -28,6 +29,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prettier": "^3.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button } from '@/components/ui/button'
+import React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,14 +7,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
+} from "@/components/ui/card";
 
 interface EmptyStateProps {
-  title: string
-  description: string
-  actionLabel?: string
-  onAction?: () => void
-  icon?: React.ReactNode
+  title: string;
+  description: string;
+  actionLabel?: string;
+  onAction?: () => void;
+  icon?: React.ReactNode;
 }
 
 export function EmptyState({
@@ -60,5 +60,5 @@ export function EmptyState({
         </CardFooter>
       )}
     </Card>
-  )
+  );
 }

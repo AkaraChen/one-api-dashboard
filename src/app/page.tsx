@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useQueries } from '@tanstack/react-query'
-import { Button } from '@/components/ui/button'
+import { useQueries } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,36 +9,40 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { useSettingsStore } from '@/store/settings-store'
-import { EmptyState } from '@/components/empty-state'
-import { getProviderQuota } from '@/services/one-api'
-import Link from 'next/link'
+} from "@/components/ui/card";
+import { useSettingsStore } from "@/store/settings-store";
+import { EmptyState } from "@/components/empty-state";
+import { getProviderQuota } from "@/services/one-api";
+import Link from "next/link";
 
 function Dashboard() {
   // Get providers from the store
-  const { providers } = useSettingsStore()
+  const { providers } = useSettingsStore();
 
   // 使用 useQueries 获取每个 provider 的配额信息
   const quotaQueries = useQueries({
     queries: providers.map((provider) => ({
-      queryKey: ['providerQuota', provider.id],
+      queryKey: ["providerQuota", provider.id],
       queryFn: async () => {
         // 只有当 URL 和 API Key 都存在时才发起请求
         if (provider.url && provider.apiKey && provider.userId) {
           try {
-            return await getProviderQuota(provider.url, provider.apiKey, provider.userId)
+            return await getProviderQuota(
+              provider.url,
+              provider.apiKey,
+              provider.userId,
+            );
           } catch (error) {
-            console.error(`获取 ${provider.name} 配额失败:`, error)
-            return { quota: 0, quotaPerUnit: 1, unit: 0 } // 返回默认值
+            console.error(`获取 ${provider.name} 配额失败:`, error);
+            return { quota: 0, quotaPerUnit: 1, unit: 0 }; // 返回默认值
           }
         }
-        throw new Error('未提供 URL 或 API Key')
+        throw new Error("未提供 URL 或 API Key");
       },
       staleTime: 1000 * 60 * 5, // 5分钟缓存
       refetchOnWindowFocus: false,
     })),
-  })
+  });
 
   return (
     <div className="container mx-auto p-4">
@@ -68,9 +72,9 @@ function Dashboard() {
           {providers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {providers.map((provider, index) => {
-                const quotaQuery = quotaQueries[index]
-                const isLoading = quotaQuery.isLoading
-                const quotaData = quotaQuery.data
+                const quotaQuery = quotaQueries[index];
+                const isLoading = quotaQuery.isLoading;
+                const quotaData = quotaQuery.data;
 
                 return (
                   <Card key={provider.id} className="border shadow-sm">
@@ -121,16 +125,16 @@ function Dashboard() {
                               </svg>
                             </div>
                             <span className="text-sm">
-                              {provider.unit === 'USD'
-                                ? '$'
-                                : provider.unit === 'CNY'
-                                  ? '¥'
-                                  : provider.unit === 'EUR'
-                                    ? '€'
-                                    : provider.unit === 'GBP'
-                                      ? '£'
-                                      : provider.unit === 'JPY'
-                                        ? '¥'
+                              {provider.unit === "USD"
+                                ? "$"
+                                : provider.unit === "CNY"
+                                  ? "¥"
+                                  : provider.unit === "EUR"
+                                    ? "€"
+                                    : provider.unit === "GBP"
+                                      ? "£"
+                                      : provider.unit === "JPY"
+                                        ? "¥"
                                         : provider.unit}
                               {quotaData?.unit.toFixed(2)}
                             </span>
@@ -139,7 +143,7 @@ function Dashboard() {
                       )}
                     </CardContent>
                   </Card>
-                )
+                );
               })}
             </div>
           ) : (
@@ -148,7 +152,7 @@ function Dashboard() {
               description="您尚未添加任何 API 提供商。点击下方按钮添加您的第一个 API 提供商。"
               actionLabel="添加提供商"
               onAction={() => {
-                window.location.href = '/settings'
+                window.location.href = "/settings";
               }}
               icon={
                 <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
@@ -184,7 +188,7 @@ function Dashboard() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
 
 export default Dashboard;

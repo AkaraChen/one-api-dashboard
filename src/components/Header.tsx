@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -8,23 +8,17 @@ export default function Header() {
         <div className="font-bold text-xl">One API Dashboard</div>
         <nav className="flex gap-2">
           <Button variant="ghost" asChild>
-            <Link
-              href="/"
-              className="bg-accent text-accent-foreground"
-            >
+            <Link href="/" className="bg-accent text-accent-foreground">
               首页
             </Link>
           </Button>
           <Button variant="ghost" asChild>
-            <Link
-              href="/settings"
-              className="bg-accent text-accent-foreground"
-            >
+            <Link href="/settings" className="bg-accent text-accent-foreground">
               设置
             </Link>
           </Button>
         </nav>
       </div>
     </header>
-  )
+  );
 }

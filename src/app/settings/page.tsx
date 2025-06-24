@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,83 +9,83 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { useSettingsStore } from '@/store/settings-store'
-import { EmptyState } from '@/components/empty-state'
+} from "@/components/ui/select";
+import { useSettingsStore } from "@/store/settings-store";
+import { EmptyState } from "@/components/empty-state";
 
 function Settings() {
   // Get settings providers and actions from the store
   const { providers, addProvider, updateProvider, deleteProvider } =
-    useSettingsStore()
+    useSettingsStore();
 
   // State for the form
-  const [showForm, setShowForm] = useState(false)
+  const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<{
-    name: string
-    url: string
-    apiKey: string
-    userId: string
-    unit: string
+    name: string;
+    url: string;
+    apiKey: string;
+    userId: string;
+    unit: string;
   }>({
-    name: '',
-    url: '',
-    apiKey: '',
-    userId: '',
-    unit: 'USD',
-  })
-  const [editingId, setEditingId] = useState<string | null>(null)
+    name: "",
+    url: "",
+    apiKey: "",
+    userId: "",
+    unit: "USD",
+  });
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   // Add or update a provider
   const handleSaveProvider = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (editingId) {
       // Update existing provider
-      updateProvider(editingId, formData)
-      setEditingId(null)
+      updateProvider(editingId, formData);
+      setEditingId(null);
     } else {
       // Add new provider
-      addProvider(formData)
+      addProvider(formData);
     }
 
     // Reset form
-    setFormData({ name: '', url: '', apiKey: '', userId: '', unit: 'USD' })
-    setShowForm(false)
-  }
+    setFormData({ name: "", url: "", apiKey: "", userId: "", unit: "USD" });
+    setShowForm(false);
+  };
 
   // Edit a provider
   const handleEditProvider = (id: string) => {
-    const providerToEdit = providers.find((provider) => provider.id === id)
+    const providerToEdit = providers.find((provider) => provider.id === id);
     if (providerToEdit) {
       setFormData({
         name: providerToEdit.name,
         url: providerToEdit.url,
         apiKey: providerToEdit.apiKey,
-        userId: providerToEdit.userId || '',
-        unit: providerToEdit.unit || 'USD',
-      })
-      setEditingId(id)
-      setShowForm(true)
+        userId: providerToEdit.userId || "",
+        unit: providerToEdit.unit || "USD",
+      });
+      setEditingId(id);
+      setShowForm(true);
     }
-  }
+  };
 
   // Delete a provider
   const handleDeleteProvider = (id: string) => {
-    deleteProvider(id)
-  }
+    deleteProvider(id);
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -101,10 +101,10 @@ function Settings() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle>
-              {editingId ? '编辑 API 设置' : '添加 API 设置'}
+              {editingId ? "编辑 API 设置" : "添加 API 设置"}
             </CardTitle>
             <CardDescription>
-              {editingId ? '修改现有的 API 端点配置' : '添加新的 API 端点配置'}
+              {editingId ? "修改现有的 API 端点配置" : "添加新的 API 端点配置"}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -142,7 +142,7 @@ function Settings() {
                       API Key 将被安全存储在本地
                     </CardDescription>
                   </div>
-                  
+
                   <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">
                       用户 ID
@@ -185,7 +185,10 @@ function Settings() {
                       name="unit"
                       value={formData.unit}
                       onValueChange={(value) =>
-                        setFormData((prev) => ({ ...prev, unit: value }))
+                        setFormData((prev) => ({
+                          ...prev,
+                          unit: value,
+                        }))
                       }
                     >
                       <SelectTrigger className="w-full">
@@ -212,15 +215,21 @@ function Settings() {
               type="button"
               variant="outline"
               onClick={() => {
-                setShowForm(false)
-                setFormData({ name: '', url: '', apiKey: '', userId: '', unit: 'USD' })
-                setEditingId(null)
+                setShowForm(false);
+                setFormData({
+                  name: "",
+                  url: "",
+                  apiKey: "",
+                  userId: "",
+                  unit: "USD",
+                });
+                setEditingId(null);
               }}
             >
               取消
             </Button>
             <Button type="submit" form="settingsForm">
-              {editingId ? '更新' : '保存'}
+              {editingId ? "更新" : "保存"}
             </Button>
           </CardFooter>
         </Card>
@@ -291,7 +300,7 @@ function Settings() {
         />
       )}
     </div>
-  )
+  );
 }
 
-export default Settings
+export default Settings;
