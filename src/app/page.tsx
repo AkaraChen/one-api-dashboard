@@ -25,9 +25,9 @@ function Dashboard() {
       queryKey: ['providerQuota', provider.id],
       queryFn: async () => {
         // 只有当 URL 和 API Key 都存在时才发起请求
-        if (provider.url && provider.apiKey) {
+        if (provider.url && provider.apiKey && provider.userId) {
           try {
-            return await getProviderQuota(provider.url, provider.apiKey)
+            return await getProviderQuota(provider.url, provider.apiKey, provider.userId)
           } catch (error) {
             console.error(`获取 ${provider.name} 配额失败:`, error)
             return { quota: 0, quotaPerUnit: 1, unit: 0 } // 返回默认值

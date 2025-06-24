@@ -31,11 +31,13 @@ function Settings() {
     name: string
     url: string
     apiKey: string
+    userId: string
     unit: string
   }>({
     name: '',
     url: '',
     apiKey: '',
+    userId: '',
     unit: 'USD',
   })
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -60,7 +62,7 @@ function Settings() {
     }
 
     // Reset form
-    setFormData({ name: '', url: '', apiKey: '', unit: 'USD' })
+    setFormData({ name: '', url: '', apiKey: '', userId: '', unit: 'USD' })
     setShowForm(false)
   }
 
@@ -72,6 +74,7 @@ function Settings() {
         name: providerToEdit.name,
         url: providerToEdit.url,
         apiKey: providerToEdit.apiKey,
+        userId: providerToEdit.userId || '',
         unit: providerToEdit.unit || 'USD',
       })
       setEditingId(id)
@@ -139,6 +142,23 @@ function Settings() {
                       API Key 将被安全存储在本地
                     </CardDescription>
                   </div>
+                  
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">
+                      用户 ID
+                    </label>
+                    <input
+                      type="text"
+                      name="userId"
+                      value={formData.userId}
+                      onChange={handleInputChange}
+                      className="w-full border rounded-md px-3 py-2"
+                      required
+                    />
+                    <CardDescription className="mt-1 text-xs">
+                      必填的用户 ID
+                    </CardDescription>
+                  </div>
                 </div>
 
                 {/* 右列 */}
@@ -193,7 +213,7 @@ function Settings() {
               variant="outline"
               onClick={() => {
                 setShowForm(false)
-                setFormData({ name: '', url: '', apiKey: '', unit: 'USD' })
+                setFormData({ name: '', url: '', apiKey: '', userId: '', unit: 'USD' })
                 setEditingId(null)
               }}
             >

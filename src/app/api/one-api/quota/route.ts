@@ -7,10 +7,11 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const baseURL = url.searchParams.get('baseURL');
   const token = url.searchParams.get('token');
+  const userId = url.searchParams.get('userId');
 
-  if (!baseURL || !token) {
+  if (!baseURL || !token || !userId) {
     return NextResponse.json(
-      { error: 'Missing baseURL or token parameter' },
+      { error: 'Missing baseURL, token or userId parameter' },
       { status: 400 }
     );
   }
@@ -29,10 +30,10 @@ export async function GET(request: NextRequest) {
     const userResponse = await fetch(new URL('/api/user/self', baseURL), {
       headers: {
         Authorization: `Bearer ${token}`,
+        'New-Api-User': userId,
       },
     });
     const userData = await userResponse.json();
-    console.log('userData', userData);
     const quota = userData.data.quota;
 
     // Calculate unit

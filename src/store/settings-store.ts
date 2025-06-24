@@ -7,6 +7,7 @@ export interface Provider {
   name: string
   url: string
   apiKey: string
+  userId: string // 必填的用户ID
   unit?: string // 可选的货币单位，默认为 USD
 }
 
@@ -26,6 +27,7 @@ export const useSettingsStore = create<SettingsState>()(
           name: 'OpenAI',
           url: 'https://api.openai.com',
           apiKey: '',
+          userId: '',
           unit: 'USD',
         },
         {
@@ -33,6 +35,7 @@ export const useSettingsStore = create<SettingsState>()(
           name: 'Anthropic',
           url: 'https://api.anthropic.com',
           apiKey: '',
+          userId: '',
           unit: 'USD',
         },
         {
@@ -40,6 +43,7 @@ export const useSettingsStore = create<SettingsState>()(
           name: 'Cohere',
           url: 'https://api.cohere.ai',
           apiKey: '',
+          userId: '',
           unit: 'USD',
         },
       ],
