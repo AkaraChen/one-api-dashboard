@@ -77,8 +77,8 @@ function Dashboard() {
                 const quotaData = quotaQuery.data;
 
                 return (
-                  <Card key={provider.id} className="border shadow-sm">
-                    <CardContent className="p-4">
+                  <Card key={provider.id}>
+                    <CardContent>
                       {isLoading ? (
                         <p className="text-sm text-muted-foreground">
                           加载中...
