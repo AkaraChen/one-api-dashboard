@@ -3,11 +3,19 @@
 import { useQueries } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { CurrencyUnit, getCurrencySymbol } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
 import { useSettingsStore } from "@/store/settings-store";
 import { EmptyState } from "@/components/empty-state";
 import { getProviderQuota } from "@/services/one-api";
 import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 function Dashboard() {
   // Get providers from the store
@@ -48,32 +56,42 @@ function Dashboard() {
       </div>
 
       {providers.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {providers.map((provider, index) => {
-            const quotaQuery = quotaQueries[index];
-            const isLoading = quotaQuery.isLoading;
-            const quotaData = quotaQuery.data;
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>提供商名称</TableHead>
+                <TableHead>接口地址</TableHead>
+                <TableHead className="text-right">余额</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {providers.map((provider, index) => {
+                const quotaQuery = quotaQueries[index];
+                const isLoading = quotaQuery.isLoading;
+                const quotaData = quotaQuery.data;
 
-            return (
-              <Card key={provider.id}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">{provider.name}</span>
-                    {isLoading ? (
-                      <span className="text-xs text-muted-foreground">加载中...</span>
-                    ) : quotaQuery.isError ? (
-                      <span className="text-xs text-destructive">获取失败</span>
-                    ) : (
-                      <span className="text-sm">
-                        {getCurrencySymbol(provider.unit as CurrencyUnit || "USD")}
-                        {quotaData?.unit.toFixed(2)}
-                      </span>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+                return (
+                  <TableRow key={provider.id}>
+                    <TableCell className="font-medium">{provider.name}</TableCell>
+                    <TableCell className="text-xs truncate max-w-[200px]">{provider.url || '-'}</TableCell>
+                    <TableCell className="text-right">
+                      {isLoading ? (
+                        <span className="text-xs text-muted-foreground">加载中...</span>
+                      ) : quotaQuery.isError ? (
+                        <span className="text-xs text-destructive">获取失败</span>
+                      ) : (
+                        <span>
+                          {getCurrencySymbol(provider.unit as CurrencyUnit || "USD")}
+                          {quotaData?.unit.toFixed(2)}
+                        </span>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         </div>
       ) : (
         <EmptyState
