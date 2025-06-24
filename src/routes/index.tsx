@@ -20,25 +20,26 @@ export const Route = createFileRoute('/')({
 function Dashboard() {
   // Get providers from the store
   const { providers } = useSettingsStore()
-  
+
   // 使用 useQueries 获取每个 provider 的配额信息
   const quotaQueries = useQueries({
-    queries: providers.map(provider => ({
+    queries: providers.map((provider) => ({
       queryKey: ['providerQuota', provider.id],
-      queryFn: () => {
+      queryFn: async () => {
         // 只有当 URL 和 API Key 都存在时才发起请求
         if (provider.url && provider.apiKey) {
-          return getProviderQuota(provider.url, provider.apiKey)
-            .catch(error => {
-              console.error(`获取 ${provider.name} 配额失败:`, error)
-              return { quota: 0, quotaPerUnit: 1, unit: 0 } // 返回默认值
-            })
+          try {
+            return await getProviderQuota(provider.url, provider.apiKey)
+          } catch (error) {
+            console.error(`获取 ${provider.name} 配额失败:`, error)
+            return { quota: 0, quotaPerUnit: 1, unit: 0 } // 返回默认值
+          }
         }
         return Promise.resolve({ quota: 0, quotaPerUnit: 1, unit: 0 }) // 默认值
       },
       staleTime: 1000 * 60 * 5, // 5分钟缓存
-      refetchOnWindowFocus: false
-    }))
+      refetchOnWindowFocus: false,
+    })),
   })
 
   return (
@@ -72,75 +73,79 @@ function Dashboard() {
                 const quotaQuery = quotaQueries[index]
                 const isLoading = quotaQuery.isLoading
                 const quotaData = quotaQuery.data
-                
+
                 return (
                   <Card key={provider.id} className="border shadow-sm">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">{provider.name}</CardTitle>
-                      <CardDescription className="truncate">
-                        <a 
-                          href={provider.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="hover:underline cursor-pointer"
-                        >
-                          {provider.url}
-                        </a>
-                      </CardDescription>
-                      <CardDescription className="mt-1 text-xs">
-                        API Key: {provider.apiKey ? '••••' + provider.apiKey.slice(-4) : '未设置'}
-                      </CardDescription>
-                      <CardDescription className="mt-1 text-xs">
-                        货币单位: {provider.unit === 'USD' ? '$' : 
-                                 provider.unit === 'CNY' ? '¥' : 
-                                 provider.unit === 'EUR' ? '€' : 
-                                 provider.unit === 'GBP' ? '£' : 
-                                 provider.unit === 'JPY' ? '¥' : provider.unit}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="pt-0">
+                    <CardContent className="p-4">
                       {isLoading ? (
-                        <p className="text-sm text-muted-foreground">加载中...</p>
+                        <p className="text-sm text-muted-foreground">
+                          加载中...
+                        </p>
                       ) : quotaQuery.isError ? (
                         <p className="text-sm text-destructive">获取配额失败</p>
                       ) : (
-                        <div className="space-y-1">
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm font-medium">剩余配额:</span>
-                            <span className="text-sm">
-                              {quotaData?.quota.toLocaleString()} / {(quotaData?.quotaPerUnit || 0).toLocaleString()}
+                        <div className="space-y-3">
+                          <div className="flex items-center">
+                            <div className="w-5 h-5 mr-2 flex items-center justify-center">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z" />
+                              </svg>
+                            </div>
+                            <span className="text-base font-medium">
+                              {provider.name}
                             </span>
                           </div>
-                          <div className="w-full bg-muted rounded-full h-2">
-                            <div 
-                              className="bg-primary h-2 rounded-full" 
-                              style={{ 
-                                width: `${Math.min(100, ((quotaData?.quota || 0) / (quotaData?.quotaPerUnit || 1)) * 100)}%` 
-                              }}
-                            />
+                          <div className="flex items-center">
+                            <div className="w-5 h-5 mr-2 flex items-center justify-center">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 6v6l4 2" />
+                              </svg>
+                            </div>
+                            <span className="text-sm">
+                              {provider.unit === 'USD'
+                                ? '$'
+                                : provider.unit === 'CNY'
+                                  ? '¥'
+                                  : provider.unit === 'EUR'
+                                    ? '€'
+                                    : provider.unit === 'GBP'
+                                      ? '£'
+                                      : provider.unit === 'JPY'
+                                        ? '¥'
+                                        : provider.unit}
+                              {quotaData?.unit.toFixed(2)}
+                            </span>
                           </div>
-                          <p className="text-xs text-muted-foreground text-right">
-                            {provider.unit === 'USD' ? '$' : 
-                             provider.unit === 'CNY' ? '¥' : 
-                             provider.unit === 'EUR' ? '€' : 
-                             provider.unit === 'GBP' ? '£' : 
-                             provider.unit === 'JPY' ? '¥' : provider.unit}
-                            {quotaData?.unit.toFixed(2)}
-                          </p>
                         </div>
                       )}
                     </CardContent>
-                    <CardFooter className="pt-2">
-                      <Button variant="outline" size="sm" asChild>
-                        <Link to="/settings">管理</Link>
-                      </Button>
-                    </CardFooter>
                   </Card>
                 )
               })}
             </div>
           ) : (
-            <EmptyState 
+            <EmptyState
               title="暂无 API 提供商"
               description="您尚未添加任何 API 提供商。点击下方按钮添加您的第一个 API 提供商。"
               actionLabel="添加提供商"
@@ -170,15 +175,14 @@ function Dashboard() {
           )}
         </CardContent>
         <CardFooter>
-          <div className="text-sm text-gray-500 mb-2">
-            已配置 {providers.length} 个 API 端点
+          <div className="flex justify-between items-center w-full">
+            <div className="text-sm text-gray-500">
+              点击管理按钮可以编辑或删除 API 端点
+            </div>
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/settings">管理所有端点</Link>
+            </Button>
           </div>
-          <div className="text-sm text-gray-500">
-            点击管理按钮可以编辑或删除 API 端点
-          </div>
-          <Button variant="outline" asChild>
-            <Link to="/settings">管理所有端点</Link>
-          </Button>
         </CardFooter>
       </Card>
     </div>

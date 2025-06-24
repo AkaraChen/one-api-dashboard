@@ -6,7 +6,9 @@ export async function getProviderQuota(baseURL: string, token: string) {
   const {
     data: { quota_per_unit: quotaPerUnit },
   } = await client<Status>('/api/status', { token })
-  const { data: { quota }} = await client<User>('/api/user/self', { token })
+  const {
+    data: { quota },
+  } = await client<User>('/api/user/self', { token })
   const unit = quota / quotaPerUnit
   return {
     quotaPerUnit,

@@ -97,37 +97,36 @@ export interface StatusHeaderNav {
 }
 
 export interface User {
-    data: UserData
-    message: string
-    success: boolean
-  }
-  
+  data: UserData
+  message: string
+  success: boolean
+}
+
 export interface UserData {
-    id: number
-    username: string
-    password: string
-    original_password: string
-    display_name: string
-    role: number
-    status: number
-    email: string
-    github_id: string
-    oidc_id: string
-    wechat_id: string
-    telegram_id: string
-    verification_code: string
-    access_token: any
-    quota: number
-    used_quota: number
-    request_count: number
-    group: string
-    aff_code: string
-    aff_count: number
-    aff_quota: number
-    aff_history_quota: number
-    inviter_id: number
-    DeletedAt: any
-    linux_do_id: string
-    setting: string
-  }
-  
+  id: number
+  username: string
+  password: string
+  original_password: string
+  display_name: string
+  role: number
+  status: number
+  email: string
+  github_id: string
+  oidc_id: string
+  wechat_id: string
+  telegram_id: string
+  verification_code: string
+  access_token: any
+  quota: number
+  used_quota: number
+  request_count: number
+  group: string
+  aff_code: string
+  aff_count: number
+  aff_quota: number
+  aff_history_quota: number
+  inviter_id: number
+  DeletedAt: any
+  linux_do_id: string
+  setting: string
+}

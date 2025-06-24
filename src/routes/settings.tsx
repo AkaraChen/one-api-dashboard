@@ -30,7 +30,12 @@ function Settings() {
 
   // State for the form
   const [showForm, setShowForm] = useState(false)
-  const [formData, setFormData] = useState<{ name: string; url: string; apiKey: string; unit: string }>({
+  const [formData, setFormData] = useState<{
+    name: string
+    url: string
+    apiKey: string
+    unit: string
+  }>({
     name: '',
     url: '',
     apiKey: '',
@@ -66,11 +71,11 @@ function Settings() {
   const handleEditProvider = (id: string) => {
     const providerToEdit = providers.find((provider) => provider.id === id)
     if (providerToEdit) {
-      setFormData({ 
-        name: providerToEdit.name, 
+      setFormData({
+        name: providerToEdit.name,
         url: providerToEdit.url,
         apiKey: providerToEdit.apiKey,
-        unit: providerToEdit.unit || 'USD'
+        unit: providerToEdit.unit || 'USD',
       })
       setEditingId(id)
       setShowForm(true)
@@ -108,7 +113,9 @@ function Settings() {
                 {/* 左列 */}
                 <div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">名称</label>
+                    <label className="block text-sm font-medium mb-1">
+                      名称
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -118,9 +125,11 @@ function Settings() {
                       required
                     />
                   </div>
-                  
+
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">API Key</label>
+                    <label className="block text-sm font-medium mb-1">
+                      API Key
+                    </label>
                     <input
                       type="password"
                       name="apiKey"
@@ -134,11 +143,13 @@ function Settings() {
                     </CardDescription>
                   </div>
                 </div>
-                
+
                 {/* 右列 */}
                 <div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">URL</label>
+                    <label className="block text-sm font-medium mb-1">
+                      URL
+                    </label>
                     <input
                       type="url"
                       name="url"
@@ -148,13 +159,17 @@ function Settings() {
                       required
                     />
                   </div>
-                  
+
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">货币单位</label>
+                    <label className="block text-sm font-medium mb-1">
+                      货币单位
+                    </label>
                     <Select
                       name="unit"
                       value={formData.unit}
-                      onValueChange={(value) => setFormData(prev => ({ ...prev, unit: value }))}
+                      onValueChange={(value) =>
+                        setFormData((prev) => ({ ...prev, unit: value }))
+                      }
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="选择货币单位" />
@@ -202,9 +217,9 @@ function Settings() {
               <CardHeader>
                 <CardTitle>{provider.name}</CardTitle>
                 <CardDescription className="truncate">
-                  <a 
-                    href={provider.url} 
-                    target="_blank" 
+                  <a
+                    href={provider.url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline cursor-pointer"
                   >
@@ -232,7 +247,7 @@ function Settings() {
           ))}
         </div>
       ) : (
-        <EmptyState 
+        <EmptyState
           title="暂无 API 提供商"
           description="您尚未添加任何 API 提供商。点击下方按钮添加您的第一个 API 提供商。"
           actionLabel="添加提供商"

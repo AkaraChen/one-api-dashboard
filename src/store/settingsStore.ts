@@ -21,19 +21,37 @@ export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
       providers: [
-        { id: '1', name: 'OpenAI', url: 'https://api.openai.com', apiKey: '', unit: 'USD' },
-        { id: '2', name: 'Anthropic', url: 'https://api.anthropic.com', apiKey: '', unit: 'USD' },
-        { id: '3', name: 'Cohere', url: 'https://api.cohere.ai', apiKey: '', unit: 'USD' },
+        {
+          id: '1',
+          name: 'OpenAI',
+          url: 'https://api.openai.com',
+          apiKey: '',
+          unit: 'USD',
+        },
+        {
+          id: '2',
+          name: 'Anthropic',
+          url: 'https://api.anthropic.com',
+          apiKey: '',
+          unit: 'USD',
+        },
+        {
+          id: '3',
+          name: 'Cohere',
+          url: 'https://api.cohere.ai',
+          apiKey: '',
+          unit: 'USD',
+        },
       ],
 
       addProvider: (provider: Omit<Provider, 'id'>) =>
         set((state) => ({
           providers: [
             ...state.providers,
-            { 
-              ...provider, 
+            {
+              ...provider,
               id: Date.now().toString(),
-              unit: provider.unit || 'USD' // 如果没有提供 unit，默认设置为 USD
+              unit: provider.unit || 'USD', // 如果没有提供 unit，默认设置为 USD
             },
           ],
         })),
