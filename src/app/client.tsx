@@ -26,7 +26,7 @@ function DashboardClient() {
   // 使用 useQueries 获取每个 provider 的配额信息
   const quotaQueries = useQueries({
     queries: providers.map((provider) => ({
-      queryKey: ["providerQuota", provider.id],
+      queryKey: ["providerQuota", provider],
       queryFn: async () => {
         // 只有当 URL 和 API Key 都存在时才发起请求
         if (provider.url && provider.apiKey) {
