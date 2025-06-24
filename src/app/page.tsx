@@ -1,4 +1,5 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+'use client'
+
 import { useQueries } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,13 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useSettingsStore } from '@/store/settingsStore'
+import { useSettingsStore } from '@/store/settings-store'
 import { EmptyState } from '@/components/empty-state'
 import { getProviderQuota } from '@/services/one-api'
-
-export const Route = createFileRoute('/')({
-  component: Dashboard,
-})
+import Link from 'next/link'
 
 function Dashboard() {
   // Get providers from the store
@@ -56,7 +54,7 @@ function Dashboard() {
         <CardContent>已配置 {providers.length} 个 API 端点</CardContent>
         <CardFooter>
           <Button asChild>
-            <Link to="/settings">前往设置</Link>
+            <Link href="/settings">前往设置</Link>
           </Button>
         </CardFooter>
       </Card>
@@ -180,7 +178,7 @@ function Dashboard() {
               点击管理按钮可以编辑或删除 API 端点
             </div>
             <Button variant="outline" size="sm" asChild>
-              <Link to="/settings">管理所有端点</Link>
+              <Link href="/settings">管理所有端点</Link>
             </Button>
           </div>
         </CardFooter>
@@ -188,3 +186,5 @@ function Dashboard() {
     </div>
   )
 }
+
+export default Dashboard;

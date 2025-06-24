@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+'use client'
+
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,12 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSettingsStore } from '@/store/settingsStore'
+import { useSettingsStore } from '@/store/settings-store'
 import { EmptyState } from '@/components/empty-state'
-
-export const Route = createFileRoute('/settings')({
-  component: Settings,
-})
 
 function Settings() {
   // Get settings providers and actions from the store
@@ -276,3 +273,5 @@ function Settings() {
     </div>
   )
 }
+
+export default Settings

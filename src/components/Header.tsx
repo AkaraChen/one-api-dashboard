@@ -1,5 +1,5 @@
-import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function Header() {
   return (
@@ -9,16 +9,16 @@ export default function Header() {
         <nav className="flex gap-2">
           <Button variant="ghost" asChild>
             <Link
-              to="/"
-              activeProps={{ className: 'bg-accent text-accent-foreground' }}
+              href="/"
+              className="bg-accent text-accent-foreground"
             >
               首页
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link
-              to="/settings"
-              activeProps={{ className: 'bg-accent text-accent-foreground' }}
+              href="/settings"
+              className="bg-accent text-accent-foreground"
             >
               设置
             </Link>
