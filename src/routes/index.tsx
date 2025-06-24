@@ -15,8 +15,8 @@ export const Route = createFileRoute('/')({
 })
 
 function Dashboard() {
-  // Get settings from the store
-  const { items } = useSettingsStore()
+  // Get providers from the store
+  const { providers } = useSettingsStore()
 
   return (
     <div className="container mx-auto p-4">
@@ -29,7 +29,7 @@ function Dashboard() {
             您可以在这里管理和监控您的 API 使用情况
           </CardDescription>
         </CardHeader>
-        <CardContent>已配置 {items.length} 个 API 端点</CardContent>
+        <CardContent>已配置 {providers.length} 个 API 端点</CardContent>
         <CardFooter>
           <Button asChild>
             <Link to="/settings">前往设置</Link>
@@ -43,13 +43,13 @@ function Dashboard() {
           <CardDescription>所有配置的 API 端点列表</CardDescription>
         </CardHeader>
         <CardContent>
-          {items.length > 0 ? (
+          {providers.length > 0 ? (
             <div className="space-y-4">
-              {items.map(item => (
-                <Card key={item.id} className="border shadow-sm">
+              {providers.map(provider => (
+                <Card key={provider.id} className="border shadow-sm">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-base">{item.name}</CardTitle>
-                    <CardDescription className="truncate">{item.url}</CardDescription>
+                    <CardTitle className="text-base">{provider.name}</CardTitle>
+                    <CardDescription className="truncate">{provider.url}</CardDescription>
                   </CardHeader>
                   <CardFooter className="pt-2">
                     <Button variant="outline" size="sm" asChild>
@@ -64,6 +64,9 @@ function Dashboard() {
           )}
         </CardContent>
         <CardFooter>
+          <div className="text-sm text-gray-500 mb-2">
+            已配置 {providers.length} 个 API 端点
+          </div>
           <div className="text-sm text-gray-500">
             点击管理按钮可以编辑或删除 API 端点
           </div>

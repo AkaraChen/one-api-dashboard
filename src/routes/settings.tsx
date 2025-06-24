@@ -16,8 +16,8 @@ export const Route = createFileRoute('/settings')({
 })
 
 function Settings() {
-  // Get settings items and actions from the store
-  const { items, addItem, updateItem, deleteItem } = useSettingsStore()
+  // Get settings providers and actions from the store
+  const { providers, addProvider, updateProvider, deleteProvider } = useSettingsStore()
 
   // State for the form
   const [showForm, setShowForm] = useState(false)
@@ -33,17 +33,17 @@ function Settings() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  // Add or update an item
-  const handleSaveItem = (e: React.FormEvent) => {
+  // Add or update a provider
+  const handleSaveProvider = (e: React.FormEvent) => {
     e.preventDefault()
 
     if (editingId) {
-      // Update existing item
-      updateItem(editingId, formData)
+      // Update existing provider
+      updateProvider(editingId, formData)
       setEditingId(null)
     } else {
-      // Add new item
-      addItem(formData)
+      // Add new provider
+      addProvider(formData)
     }
 
     // Reset form
@@ -51,19 +51,19 @@ function Settings() {
     setShowForm(false)
   }
 
-  // Edit an item
-  const handleEditItem = (id: string) => {
-    const itemToEdit = items.find((item) => item.id === id)
-    if (itemToEdit) {
-      setFormData({ name: itemToEdit.name, url: itemToEdit.url })
+  // Edit a provider
+  const handleEditProvider = (id: string) => {
+    const providerToEdit = providers.find((provider) => provider.id === id)
+    if (providerToEdit) {
+      setFormData({ name: providerToEdit.name, url: providerToEdit.url })
       setEditingId(id)
       setShowForm(true)
     }
   }
 
-  // Delete an item
-  const handleDeleteItem = (id: string) => {
-    deleteItem(id)
+  // Delete a provider
+  const handleDeleteProvider = (id: string) => {
+    deleteProvider(id)
   }
 
   return (
@@ -87,7 +87,7 @@ function Settings() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form id="settingsForm" onSubmit={handleSaveItem}>
+            <form id="settingsForm" onSubmit={handleSaveProvider}>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">名称</label>
                 <input
@@ -131,24 +131,24 @@ function Settings() {
         </Card>
       )}
 
-      {/* Grid of items */}
+      {/* Grid of providers */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {items.map((item) => (
-          <Card key={item.id}>
+        {providers.map((provider) => (
+          <Card key={provider.id}>
             <CardHeader>
-              <CardTitle>{item.name}</CardTitle>
-              <CardDescription className="truncate">{item.url}</CardDescription>
+              <CardTitle>{provider.name}</CardTitle>
+              <CardDescription className="truncate">{provider.url}</CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-end gap-2">
               <Button
-                onClick={() => handleEditItem(item.id)}
+                onClick={() => handleEditProvider(provider.id)}
                 variant="outline"
                 size="sm"
               >
                 编辑
               </Button>
               <Button
-                onClick={() => handleDeleteItem(item.id)}
+                onClick={() => handleDeleteProvider(provider.id)}
                 variant="destructive"
                 size="sm"
               >
