@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useSettingsStore } from "@/store/settings-store";
 import { EmptyState } from "@/components/empty-state";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 function Settings() {
   // Get settings providers and actions from the store
@@ -87,8 +88,10 @@ function Settings() {
     deleteProvider(id);
   };
 
+  const [parent] = useAutoAnimate();
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4" ref={parent}>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">设置</h1>
         <Button onClick={() => setShowForm(true)} variant="default">
