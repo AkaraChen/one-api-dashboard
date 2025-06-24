@@ -21,32 +21,7 @@ interface SettingsState {
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      providers: [
-        {
-          id: "1",
-          name: "OpenAI",
-          url: "https://api.openai.com",
-          apiKey: "",
-          userId: "",
-          unit: "USD",
-        },
-        {
-          id: "2",
-          name: "Anthropic",
-          url: "https://api.anthropic.com",
-          apiKey: "",
-          userId: "",
-          unit: "USD",
-        },
-        {
-          id: "3",
-          name: "Cohere",
-          url: "https://api.cohere.ai",
-          apiKey: "",
-          userId: "",
-          unit: "USD",
-        },
-      ],
+      providers: [],
 
       addProvider: (provider: Omit<Provider, "id">) =>
         set((state) => ({
