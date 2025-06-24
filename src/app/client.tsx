@@ -15,7 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader2Icon, XIcon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 function DashboardClient() {
   // Get providers from the store
@@ -46,6 +47,8 @@ function DashboardClient() {
     })),
   });
 
+  const queryClient = useQueryClient();
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
@@ -74,18 +77,22 @@ function DashboardClient() {
 
                 return (
                   <TableRow key={provider.id}>
-                    <TableCell className="font-medium">{provider.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {provider.name}
+                    </TableCell>
                     <TableCell className="truncate">
                       {provider.url ? (
-                        <a 
-                          href={provider.url} 
-                          target="_blank" 
+                        <a
+                          href={provider.url}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="hover:underline"
                         >
                           {provider.url}
                         </a>
-                      ) : '-'}
+                      ) : (
+                        "-"
+                      )}
                     </TableCell>
                     <TableCell className="w-[200px]">
                       {isLoading ? (
@@ -93,8 +100,17 @@ function DashboardClient() {
                       ) : quotaQuery.isError ? (
                         <span className="text-destructive">获取失败</span>
                       ) : (
-                        <span>
-                          {getCurrencySymbol(provider.unit as CurrencyUnit || "USD")}
+                        <span
+                          onClick={() => {
+                            queryClient.resetQueries({
+                              queryKey: ["providerQuota", provider.id],
+                            });
+                          }}
+                          className="cursor-pointer"
+                        >
+                          {getCurrencySymbol(
+                            (provider.unit as CurrencyUnit) || "USD",
+                          )}
                           {quotaData?.unit.toFixed(2)}
                         </span>
                       )}
