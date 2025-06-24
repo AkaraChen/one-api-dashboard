@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
 
 // Define the provider type for our settings
 export interface Provider {
@@ -27,8 +27,8 @@ export const useSettingsStore = create<SettingsState>()(
       addProvider: (provider: Omit<Provider, "id">) =>
         set((state) => {
           // Generate a unique ID using timestamp + random string to avoid collisions
-          const uniqueId = nanoid()
-          
+          const uniqueId = nanoid();
+
           return {
             providers: [
               ...state.providers,

@@ -37,7 +37,9 @@ function DashboardClient() {
               provider.userId,
             );
           } catch (error) {
-            toast.error(`获取 ${provider.name} 配额失败: ${(error as Error).message}`);
+            toast.error(
+              `获取 ${provider.name} 配额失败: ${(error as Error).message}`,
+            );
             return { quota: 0, quotaPerUnit: 1, unit: 0 }; // 返回默认值
           }
         }
