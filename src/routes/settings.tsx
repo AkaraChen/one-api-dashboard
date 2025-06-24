@@ -104,63 +104,74 @@ function Settings() {
           </CardHeader>
           <CardContent>
             <form id="settingsForm" onSubmit={handleSaveProvider}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">名称</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full border rounded-md px-3 py-2"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">URL</label>
-                <input
-                  type="url"
-                  name="url"
-                  value={formData.url}
-                  onChange={handleInputChange}
-                  className="w-full border rounded-md px-3 py-2"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">API Key</label>
-                <input
-                  type="password"
-                  name="apiKey"
-                  value={formData.apiKey}
-                  onChange={handleInputChange}
-                  className="w-full border rounded-md px-3 py-2"
-                  required
-                />
-                <CardDescription className="mt-1 text-xs">
-                  API Key 将被安全存储在本地
-                </CardDescription>
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">货币单位</label>
-                <Select
-                  name="unit"
-                  value={formData.unit}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, unit: value }))}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="选择货币单位" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="USD">$ (美元)</SelectItem>
-                    <SelectItem value="CNY">¥ (人民币)</SelectItem>
-                    <SelectItem value="EUR">€ (欧元)</SelectItem>
-                    <SelectItem value="GBP">£ (英镑)</SelectItem>
-                    <SelectItem value="JPY">¥ (日元)</SelectItem>
-                  </SelectContent>
-                </Select>
-                <CardDescription className="mt-1 text-xs">
-                  用于显示费用的货币单位
-                </CardDescription>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* 左列 */}
+                <div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">名称</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="w-full border rounded-md px-3 py-2"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">API Key</label>
+                    <input
+                      type="password"
+                      name="apiKey"
+                      value={formData.apiKey}
+                      onChange={handleInputChange}
+                      className="w-full border rounded-md px-3 py-2"
+                      required
+                    />
+                    <CardDescription className="mt-1 text-xs">
+                      API Key 将被安全存储在本地
+                    </CardDescription>
+                  </div>
+                </div>
+                
+                {/* 右列 */}
+                <div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">URL</label>
+                    <input
+                      type="url"
+                      name="url"
+                      value={formData.url}
+                      onChange={handleInputChange}
+                      className="w-full border rounded-md px-3 py-2"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">货币单位</label>
+                    <Select
+                      name="unit"
+                      value={formData.unit}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, unit: value }))}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="选择货币单位" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="USD">$ (美元)</SelectItem>
+                        <SelectItem value="CNY">¥ (人民币)</SelectItem>
+                        <SelectItem value="EUR">€ (欧元)</SelectItem>
+                        <SelectItem value="GBP">£ (英镑)</SelectItem>
+                        <SelectItem value="JPY">¥ (日元)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <CardDescription className="mt-1 text-xs">
+                      用于显示费用的货币单位
+                    </CardDescription>
+                  </div>
+                </div>
               </div>
             </form>
           </CardContent>
