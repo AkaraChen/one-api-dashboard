@@ -9,37 +9,23 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-
-// Define the item type for our settings
-interface SettingsItem {
-  id: string
-  name: string
-  url: string
-}
+import { useSettingsStore } from '@/store/settingsStore'
 
 export const Route = createFileRoute('/settings')({
   component: Settings,
 })
 
 function Settings() {
-  // State for settings items
-  const [items, setItems] = useState<SettingsItem[]>([
-    { id: '1', name: 'OpenAI', url: 'https://api.openai.com' },
-    { id: '2', name: 'Anthropic', url: 'https://api.anthropic.com' },
-    { id: '3', name: 'Cohere', url: 'https://api.cohere.ai' },
-  ])
+  // Get settings items and actions from the store
+  const { items, addItem, updateItem, deleteItem } = useSettingsStore()
   
   // State for the form
   const [showForm, setShowForm] = useState(false)
-  const [formData, setFormData] = useState<Omit<SettingsItem, 'id'>>({
+  const [formData, setFormData] = useState<{name: string; url: string}>({    
     name: '',
     url: '',
   })
-  
-  // Generate a unique ID for new items
-  const generateId = () => {
-    return Date.now().toString()
-  }
+  const [editingId, setEditingId] = useState<string | null>(null)
   
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,14 +33,20 @@ function Settings() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
   
-  // Add a new item
-  const handleAddItem = (e: React.FormEvent) => {
+  // Add or update an item
+  const handleSaveItem = (e: React.FormEvent) => {
     e.preventDefault()
-    const newItem = {
-      id: generateId(),
-      ...formData
+    
+    if (editingId) {
+      // Update existing item
+      updateItem(editingId, formData)
+      setEditingId(null)
+    } else {
+      // Add new item
+      addItem(formData)
     }
-    setItems(prev => [...prev, newItem])
+    
+    // Reset form
     setFormData({ name: '', url: '' })
     setShowForm(false)
   }
@@ -64,15 +56,14 @@ function Settings() {
     const itemToEdit = items.find(item => item.id === id)
     if (itemToEdit) {
       setFormData({ name: itemToEdit.name, url: itemToEdit.url })
+      setEditingId(id)
       setShowForm(true)
-      // Remove the item being edited
-      setItems(prev => prev.filter(item => item.id !== id))
     }
   }
   
   // Delete an item
   const handleDeleteItem = (id: string) => {
-    setItems(prev => prev.filter(item => item.id !== id))
+    deleteItem(id)
   }
   
   return (
@@ -96,7 +87,7 @@ function Settings() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleAddItem}>
+            <form onSubmit={handleSaveItem}>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">名称</label>
                 <input
