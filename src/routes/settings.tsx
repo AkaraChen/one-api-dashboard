@@ -9,6 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useSettingsStore } from '@/store/settingsStore'
 
 export const Route = createFileRoute('/settings')({
@@ -134,18 +141,22 @@ function Settings() {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">货币单位</label>
-                <select
+                <Select
                   name="unit"
                   value={formData.unit}
-                  onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))}
-                  className="w-full border rounded-md px-3 py-2"
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, unit: value }))}
                 >
-                  <option value="USD">$ (美元)</option>
-                  <option value="CNY">¥ (人民币)</option>
-                  <option value="EUR">€ (欧元)</option>
-                  <option value="GBP">£ (英镑)</option>
-                  <option value="JPY">¥ (日元)</option>
-                </select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="选择货币单位" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USD">$ (美元)</SelectItem>
+                    <SelectItem value="CNY">¥ (人民币)</SelectItem>
+                    <SelectItem value="EUR">€ (欧元)</SelectItem>
+                    <SelectItem value="GBP">£ (英镑)</SelectItem>
+                    <SelectItem value="JPY">¥ (日元)</SelectItem>
+                  </SelectContent>
+                </Select>
                 <CardDescription className="mt-1 text-xs">
                   用于显示费用的货币单位
                 </CardDescription>
