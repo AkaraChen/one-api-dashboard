@@ -62,7 +62,8 @@ function Dashboard() {
               <TableRow>
                 <TableHead>提供商名称</TableHead>
                 <TableHead>接口地址</TableHead>
-                <TableHead className="text-right">余额</TableHead>
+                <TableHead>余额</TableHead>
+                <TableHead>操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -74,18 +75,34 @@ function Dashboard() {
                 return (
                   <TableRow key={provider.id}>
                     <TableCell className="font-medium">{provider.name}</TableCell>
-                    <TableCell className="text-xs truncate max-w-[200px]">{provider.url || '-'}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="truncate">
+                      {provider.url ? (
+                        <a 
+                          href={provider.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="hover:underline"
+                        >
+                          {provider.url}
+                        </a>
+                      ) : '-'}
+                    </TableCell>
+                    <TableCell>
                       {isLoading ? (
-                        <span className="text-xs text-muted-foreground">加载中...</span>
+                        <span className="text-muted-foreground">加载中...</span>
                       ) : quotaQuery.isError ? (
-                        <span className="text-xs text-destructive">获取失败</span>
+                        <span className="text-destructive">获取失败</span>
                       ) : (
                         <span>
                           {getCurrencySymbol(provider.unit as CurrencyUnit || "USD")}
                           {quotaData?.unit.toFixed(2)}
                         </span>
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Button size="sm" variant="outline" asChild>
+                        <Link href={`/settings?edit=${provider.id}`}>编辑</Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );
