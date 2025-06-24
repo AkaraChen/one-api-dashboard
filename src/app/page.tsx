@@ -2,7 +2,7 @@
 
 import { useQueries } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { CURRENCY_UNITS, CurrencyUnit, getCurrencySymbol } from "@/lib/utils";
+import { CurrencyUnit, getCurrencySymbol } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -47,22 +47,7 @@ function Dashboard() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">API 控制台</h1>
-
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>欢迎使用 One API Dashboard</CardTitle>
-          <CardDescription>
-            您可以在这里管理和监控您的 API 使用情况
-          </CardDescription>
-        </CardHeader>
-        <CardContent>已配置 {providers.length} 个 API 端点</CardContent>
-        <CardFooter>
-          <Button asChild>
-            <Link href="/settings">前往设置</Link>
-          </Button>
-        </CardFooter>
-      </Card>
+      <h1 className="text-2xl font-bold mb-6">API 提供商列表</h1>
 
       <Card>
         <CardHeader>
