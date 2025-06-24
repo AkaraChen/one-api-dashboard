@@ -2,6 +2,7 @@
 
 import { useQueries } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { CURRENCY_UNITS, CurrencyUnit, getCurrencySymbol } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -125,17 +126,7 @@ function Dashboard() {
                               </svg>
                             </div>
                             <span className="text-sm">
-                              {provider.unit === "USD"
-                                ? "$"
-                                : provider.unit === "CNY"
-                                  ? "¥"
-                                  : provider.unit === "EUR"
-                                    ? "€"
-                                    : provider.unit === "GBP"
-                                      ? "£"
-                                      : provider.unit === "JPY"
-                                        ? "¥"
-                                        : provider.unit}
+                              {getCurrencySymbol(provider.unit as CurrencyUnit || "USD")}
                               {quotaData?.unit.toFixed(2)}
                             </span>
                           </div>

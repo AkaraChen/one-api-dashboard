@@ -20,6 +20,7 @@ import {
 import { useSettingsStore } from "@/store/settings-store";
 import { EmptyState } from "@/components/empty-state";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { CURRENCY_UNITS } from "@/lib/utils";
 
 function Settings() {
   // Get settings providers and actions from the store
@@ -198,11 +199,11 @@ function Settings() {
                         <SelectValue placeholder="选择货币单位" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="USD">$ (美元)</SelectItem>
-                        <SelectItem value="CNY">¥ (人民币)</SelectItem>
-                        <SelectItem value="EUR">€ (欧元)</SelectItem>
-                        <SelectItem value="GBP">£ (英镑)</SelectItem>
-                        <SelectItem value="JPY">¥ (日元)</SelectItem>
+                        {Object.entries(CURRENCY_UNITS).map(([key, value]) => (
+                          <SelectItem key={key} value={key}>
+                            {key}({value})
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <CardDescription className="mt-1 text-xs">
