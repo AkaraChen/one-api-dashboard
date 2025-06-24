@@ -52,6 +52,16 @@ function Dashboard() {
                     <CardDescription className="truncate">
                       {provider.url}
                     </CardDescription>
+                    <CardDescription className="mt-1 text-xs">
+                      API Key: {provider.apiKey ? '••••' + provider.apiKey.slice(-4) : '未设置'}
+                    </CardDescription>
+                    <CardDescription className="mt-1 text-xs">
+                      货币单位: {provider.unit === 'USD' ? '$' : 
+                               provider.unit === 'CNY' ? '¥' : 
+                               provider.unit === 'EUR' ? '€' : 
+                               provider.unit === 'GBP' ? '£' : 
+                               provider.unit === 'JPY' ? '¥' : provider.unit}
+                    </CardDescription>
                   </CardHeader>
                   <CardFooter className="pt-2">
                     <Button variant="outline" size="sm" asChild>

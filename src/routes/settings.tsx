@@ -22,9 +22,11 @@ function Settings() {
 
   // State for the form
   const [showForm, setShowForm] = useState(false)
-  const [formData, setFormData] = useState<{ name: string; url: string }>({
+  const [formData, setFormData] = useState<{ name: string; url: string; apiKey: string; unit: string }>({
     name: '',
     url: '',
+    apiKey: '',
+    unit: 'USD',
   })
   const [editingId, setEditingId] = useState<string | null>(null)
 
@@ -48,7 +50,7 @@ function Settings() {
     }
 
     // Reset form
-    setFormData({ name: '', url: '' })
+    setFormData({ name: '', url: '', apiKey: '', unit: 'USD' })
     setShowForm(false)
   }
 
@@ -56,7 +58,12 @@ function Settings() {
   const handleEditProvider = (id: string) => {
     const providerToEdit = providers.find((provider) => provider.id === id)
     if (providerToEdit) {
-      setFormData({ name: providerToEdit.name, url: providerToEdit.url })
+      setFormData({ 
+        name: providerToEdit.name, 
+        url: providerToEdit.url,
+        apiKey: providerToEdit.apiKey,
+        unit: providerToEdit.unit || 'USD'
+      })
       setEditingId(id)
       setShowForm(true)
     }
@@ -111,6 +118,38 @@ function Settings() {
                   required
                 />
               </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">API Key</label>
+                <input
+                  type="password"
+                  name="apiKey"
+                  value={formData.apiKey}
+                  onChange={handleInputChange}
+                  className="w-full border rounded-md px-3 py-2"
+                  required
+                />
+                <CardDescription className="mt-1 text-xs">
+                  API Key 将被安全存储在本地
+                </CardDescription>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">货币单位</label>
+                <select
+                  name="unit"
+                  value={formData.unit}
+                  onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))}
+                  className="w-full border rounded-md px-3 py-2"
+                >
+                  <option value="USD">$ (美元)</option>
+                  <option value="CNY">¥ (人民币)</option>
+                  <option value="EUR">€ (欧元)</option>
+                  <option value="GBP">£ (英镑)</option>
+                  <option value="JPY">¥ (日元)</option>
+                </select>
+                <CardDescription className="mt-1 text-xs">
+                  用于显示费用的货币单位
+                </CardDescription>
+              </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-end gap-2">
@@ -119,7 +158,7 @@ function Settings() {
               variant="outline"
               onClick={() => {
                 setShowForm(false)
-                setFormData({ name: '', url: '' })
+                setFormData({ name: '', url: '', apiKey: '', unit: 'USD' })
                 setEditingId(null)
               }}
             >
@@ -140,6 +179,16 @@ function Settings() {
               <CardTitle>{provider.name}</CardTitle>
               <CardDescription className="truncate">
                 {provider.url}
+              </CardDescription>
+              <CardDescription className="mt-1">
+                API Key: {provider.apiKey ? '••••' + provider.apiKey.slice(-4) : '未设置'}
+              </CardDescription>
+              <CardDescription className="mt-1">
+                货币单位: {provider.unit === 'USD' ? '$ (美元)' : 
+                         provider.unit === 'CNY' ? '¥ (人民币)' : 
+                         provider.unit === 'EUR' ? '€ (欧元)' : 
+                         provider.unit === 'GBP' ? '£ (英镑)' : 
+                         provider.unit === 'JPY' ? '¥ (日元)' : provider.unit}
               </CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-end gap-2">

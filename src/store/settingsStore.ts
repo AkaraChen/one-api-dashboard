@@ -6,6 +6,8 @@ export interface Provider {
   id: string
   name: string
   url: string
+  apiKey: string
+  unit?: string // 可选的货币单位，默认为 USD
 }
 
 interface SettingsState {
@@ -19,16 +21,20 @@ export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
       providers: [
-        { id: '1', name: 'OpenAI', url: 'https://api.openai.com' },
-        { id: '2', name: 'Anthropic', url: 'https://api.anthropic.com' },
-        { id: '3', name: 'Cohere', url: 'https://api.cohere.ai' },
+        { id: '1', name: 'OpenAI', url: 'https://api.openai.com', apiKey: '', unit: 'USD' },
+        { id: '2', name: 'Anthropic', url: 'https://api.anthropic.com', apiKey: '', unit: 'USD' },
+        { id: '3', name: 'Cohere', url: 'https://api.cohere.ai', apiKey: '', unit: 'USD' },
       ],
 
       addProvider: (provider: Omit<Provider, 'id'>) =>
         set((state) => ({
           providers: [
             ...state.providers,
-            { ...provider, id: Date.now().toString() },
+            { 
+              ...provider, 
+              id: Date.now().toString(),
+              unit: provider.unit || 'USD' // 如果没有提供 unit，默认设置为 USD
+            },
           ],
         })),
 
