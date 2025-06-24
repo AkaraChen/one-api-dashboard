@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useSettingsStore } from '@/store/settingsStore'
+import { EmptyState } from '@/components/empty-state'
 
 export const Route = createFileRoute('/')({
   component: Dashboard,
@@ -50,7 +51,14 @@ function Dashboard() {
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base">{provider.name}</CardTitle>
                     <CardDescription className="truncate">
-                      {provider.url}
+                      <a 
+                        href={provider.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="hover:underline cursor-pointer"
+                      >
+                        {provider.url}
+                      </a>
                     </CardDescription>
                     <CardDescription className="mt-1 text-xs">
                       API Key: {provider.apiKey ? '••••' + provider.apiKey.slice(-4) : '未设置'}
@@ -72,7 +80,33 @@ function Dashboard() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-600">暂无数据</p>
+            <EmptyState 
+              title="暂无 API 提供商"
+              description="您尚未添加任何 API 提供商。点击下方按钮添加您的第一个 API 提供商。"
+              actionLabel="添加提供商"
+              onAction={() => {
+                window.location.href = '/settings'
+              }}
+              icon={
+                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-muted-foreground"
+                  >
+                    <path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z" />
+                    <path d="M2 8v11a2 2 0 0 0 2 2h14" />
+                  </svg>
+                </div>
+              }
+            />
           )}
         </CardContent>
         <CardFooter>

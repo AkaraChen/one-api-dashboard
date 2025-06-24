@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useSettingsStore } from '@/store/settingsStore'
+import { EmptyState } from '@/components/empty-state'
 
 export const Route = createFileRoute('/settings')({
   component: Settings,
@@ -182,42 +183,70 @@ function Settings() {
         </Card>
       )}
 
-      {/* Grid of providers */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {providers.map((provider) => (
-          <Card key={provider.id}>
-            <CardHeader>
-              <CardTitle>{provider.name}</CardTitle>
-              <CardDescription className="truncate">
-                <a 
-                  href={provider.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:underline cursor-pointer"
+      {/* Grid of providers or empty state */}
+      {providers.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {providers.map((provider) => (
+            <Card key={provider.id}>
+              <CardHeader>
+                <CardTitle>{provider.name}</CardTitle>
+                <CardDescription className="truncate">
+                  <a 
+                    href={provider.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:underline cursor-pointer"
+                  >
+                    {provider.url}
+                  </a>
+                </CardDescription>
+              </CardHeader>
+              <CardFooter className="flex justify-end gap-2">
+                <Button
+                  onClick={() => handleEditProvider(provider.id)}
+                  variant="outline"
+                  size="sm"
                 >
-                  {provider.url}
-                </a>
-              </CardDescription>
-            </CardHeader>
-            <CardFooter className="flex justify-end gap-2">
-              <Button
-                onClick={() => handleEditProvider(provider.id)}
-                variant="outline"
-                size="sm"
+                  编辑
+                </Button>
+                <Button
+                  onClick={() => handleDeleteProvider(provider.id)}
+                  variant="destructive"
+                  size="sm"
+                >
+                  删除
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <EmptyState 
+          title="暂无 API 提供商"
+          description="您尚未添加任何 API 提供商。点击下方按钮添加您的第一个 API 提供商。"
+          actionLabel="添加提供商"
+          onAction={() => setShowForm(true)}
+          icon={
+            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-muted-foreground"
               >
-                编辑
-              </Button>
-              <Button
-                onClick={() => handleDeleteProvider(provider.id)}
-                variant="destructive"
-                size="sm"
-              >
-                删除
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+                <path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z" />
+                <path d="M2 8v11a2 2 0 0 0 2 2h14" />
+              </svg>
+            </div>
+          }
+        />
+      )}
     </div>
   )
 }
