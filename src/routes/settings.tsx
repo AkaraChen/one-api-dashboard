@@ -189,17 +189,14 @@ function Settings() {
             <CardHeader>
               <CardTitle>{provider.name}</CardTitle>
               <CardDescription className="truncate">
-                {provider.url}
-              </CardDescription>
-              <CardDescription className="mt-1">
-                API Key: {provider.apiKey ? '••••' + provider.apiKey.slice(-4) : '未设置'}
-              </CardDescription>
-              <CardDescription className="mt-1">
-                货币单位: {provider.unit === 'USD' ? '$ (美元)' : 
-                         provider.unit === 'CNY' ? '¥ (人民币)' : 
-                         provider.unit === 'EUR' ? '€ (欧元)' : 
-                         provider.unit === 'GBP' ? '£ (英镑)' : 
-                         provider.unit === 'JPY' ? '¥ (日元)' : provider.unit}
+                <a 
+                  href={provider.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:underline cursor-pointer"
+                >
+                  {provider.url}
+                </a>
               </CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-end gap-2">
