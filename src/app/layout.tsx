@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Header from "@/components/header";
+import { NuqsAdapter } from 'nuqs/adapters/next'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,8 +35,9 @@ export default function RootLayout({
       >
         <Header />
         <QueryClientProvider client={queryClient}>
-          {" "}
-          {children}
+          <NuqsAdapter>
+            {children}
+          </NuqsAdapter>
         </QueryClientProvider>
       </body>
     </html>
