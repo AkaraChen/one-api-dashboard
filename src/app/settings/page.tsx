@@ -227,7 +227,7 @@ function Settings() {
                       required
                     />
                     <CardDescription className="mt-1 text-xs">
-                      API Key 将被安全存储在本地
+                      由于浏览器的安全限制，API Key 将被发送至服务端。
                     </CardDescription>
                   </div>
 
