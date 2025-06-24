@@ -33,7 +33,7 @@ function Dashboard() {
             return { quota: 0, quotaPerUnit: 1, unit: 0 } // 返回默认值
           }
         }
-        return Promise.resolve({ quota: 0, quotaPerUnit: 1, unit: 0 }) // 默认值
+        throw new Error('未提供 URL 或 API Key')
       },
       staleTime: 1000 * 60 * 5, // 5分钟缓存
       refetchOnWindowFocus: false,
